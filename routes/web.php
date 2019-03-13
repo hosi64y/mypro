@@ -14,7 +14,4 @@
 
 Route::prefix('admin/starter')->group(function (){
    Route::get('/','Backend\mainController@mainPage');
-//   Route::get('/',function (){
-//       return "hjhhj";
-//   });
 });
