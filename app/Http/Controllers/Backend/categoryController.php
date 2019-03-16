@@ -71,7 +71,7 @@ class categoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        return "f";
     }
 
     /**
@@ -94,6 +94,9 @@ class categoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return "hhhh";
+        $category=Category::findOrFaill($id);
+        $category->delete;
+        return redirect('administrator.categories');
     }
 }

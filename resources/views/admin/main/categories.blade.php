@@ -24,7 +24,11 @@
                         <td class="text-center" >{{$cat->name}}</td>
                         <td class="text-center" >
                             <a href="{{route('categories.edit',$cat->id)}}" class="btn btn-primary">ویرایش</a>
-                            <a href="{{route('categories.destroy',$cat->id)}}" class="btn btn-danger">حذف</a>
+                            <form action="{{route('categories.destroy',$cat->id)}}">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="btn btn-danger">حذف</button>
+                            </form>
                         </td>
                     </tr>
                     @if(count($cat->childrenRecorsive)>0)
