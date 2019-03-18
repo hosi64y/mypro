@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 
 class categoryController extends Controller
 {
@@ -18,7 +19,7 @@ class categoryController extends Controller
         $categories=Category::with('childrenRecorsive')
             ->where('parent_id',null)
             ->get();
-        return view('admin\main\categories',compact(['categories']));
+        return view('admin\categories\index',compact(['categories']));
     }
 
     /**
@@ -47,7 +48,7 @@ class categoryController extends Controller
         $category->parent_id=$request->category_parent;
         $category->meta_title=$request->meta_title;
         $category->meta_desc=$request->meta_desc;
-        $category->meta_keywords-=$request->meta_keywords;
+        $category->meta_keywords=$request->meta_keywords;
         $category->save();
         return redirect('administrator/categories');
     }
@@ -71,7 +72,9 @@ class categoryController extends Controller
      */
     public function edit($id)
     {
-        return "f";
+        $category=Category::findOrFail($id);
+        $categories=Category::with('childrenRecorsive')->where('parent_id',null)->get();
+        return view('admin.categories.edit',['category'=>$category,'categories'=>$categories]);
     }
 
     /**
@@ -83,7 +86,14 @@ class categoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category=Category::findOrFail($id);
+        $category->name=$request->name;
+        $category->parent_id=$request->category_parent;
+        $category->meta_title=$request->meta_title;
+        $category->meta_desc=$request->meta_desc;
+        $category->meta_keywords=$request->meta_keywords;
+        $category->save();
+        return redirect('administrator/categories');
     }
 
     /**
@@ -94,9 +104,13 @@ class categoryController extends Controller
      */
     public function destroy($id)
     {
-        return "hhhh";
-        $category=Category::findOrFaill($id);
-        $category->delete;
-        return redirect('administrator.categories');
+//        $category=Category::findOrFail($id);
+        $category=Category::with('childrenRecorsive')->where('id',$id)->first();
+        if (count($category->childrenRecorsive)>0){
+            Session::flash('error_category','این دسته شامل زیر دسته می باشد.به همین علت امکان حذف وجود ندارد.');
+            return redirect('administrator/categories');
+        }
+        $category->delete();
+        return redirect('administrator/categories');
     }
 }

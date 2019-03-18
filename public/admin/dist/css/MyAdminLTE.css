@@ -10,3 +10,9 @@
 .width-btn-small{
     width: 85px!important;
 }
+.display-inline-block{
+    display: inline-block;
+}
+.rtl{
+    direction: rtl;
+}

@@ -1,6 +1,13 @@
 @extends('admin.layout.master')
 
 @section('content')
+    @if(Session::has('error_category'))
+        <div class="alert alert-danger rtl">
+            <div>
+                {{session('error_category')}}
+            </div>
+        </div>
+    @endif
     <div class="content">
     <div class="box">
         <div class="box-header">
@@ -24,7 +31,7 @@
                         <td class="text-center" >{{$cat->name}}</td>
                         <td class="text-center" >
                             <a href="{{route('categories.edit',$cat->id)}}" class="btn btn-primary">ویرایش</a>
-                            <form action="{{route('categories.destroy',$cat->id)}}">
+                            <form class="display-inline-block" method="post" action="{{route('categories.destroy',$cat->id)}}">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <button type="submit" class="btn btn-danger">حذف</button>

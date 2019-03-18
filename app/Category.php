@@ -14,6 +14,5 @@ class Category extends Model
     public function childrenRecorsive()
     {
         return $this->children()->with('childrenRecorsive');
-
     }
 }
