@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Brand extends Model
 {
-    protected $upload='/storage/photos/';
+    protected $uploads='/storage/photos/';
 
     public function photo()
     {
         return $this->belongsTo(Photo::class);
     }
 
-    public function getAttribute($photo)
+    public function getPathAttribute($photo)
     {
-        return $this->upload.$photo;
+        return $this->uploads.$photo;
     }
 }
