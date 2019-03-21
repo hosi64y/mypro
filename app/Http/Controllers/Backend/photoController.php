@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\AttributeGroup;
+use App\Photo;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Session;
 
-class attributeGroupController extends Controller
+class photoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +18,7 @@ class attributeGroupController extends Controller
      */
     public function index()
     {
-        $attributesGroup=AttributeGroup::paginate(10);
-
-        return view('admin.attributesGroup.index',['attributesGroup'=>$attributesGroup]);
-
+        //
     }
 
     /**
@@ -29,9 +28,34 @@ class attributeGroupController extends Controller
      */
     public function create()
     {
-        $attributeGroup=new AttributeGroup();
+        //
+    }
 
-        return view('admin.attributesGroup.create');
+    /**
+     * Upload a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function upload(Request $request)
+    {
+        $file=$request->file('file');
+        $originalNAme=$file->getClientOriginalName();
+        $filename=time().$originalNAme;
+
+        Storage::disk('local')->putFileAs('public/photos/',$file,$filename);
+
+        $photo=new Photo();
+        $photo->path=$filename;
+        $photo->original_name=$originalNAme;
+//        $photo->user_id=Auth::user()->id;
+        $photo->user_id=1;
+        $photo->save();
+
+        return response()->json([
+            'photo_id'=>$photo->id
+        ]);
+
     }
 
     /**
@@ -42,13 +66,7 @@ class attributeGroupController extends Controller
      */
     public function store(Request $request)
     {
-        $attributeGroup=new AttributeGroup();
-        $attributeGroup->name=$request->name;
-        $attributeGroup->type=$request->type;
-        $attributeGroup->save();
-
-        Session::flash('attribute_succcess','ویژگی جدید با موفقیت ایجاد شد.');
-        return redirect('administrator/attributes_group');
+        //
     }
 
     /**
@@ -70,9 +88,7 @@ class attributeGroupController extends Controller
      */
     public function edit($id)
     {
-        $attributeGroup=AttributeGroup::findOrFail($id);
-
-        return view('admin.attributesGroup.edit',['attributeGroup'=>$attributeGroup]);
+        //
     }
 
     /**
@@ -84,14 +100,7 @@ class attributeGroupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $attributeGroup=AttributeGroup::findOrFail($id);
-        $attributeGroup->name=$request->name;
-        $attributeGroup->type=$request->type;
-        $attributeGroup->save();
-
-        Session::flash('attribute_edit','ویژگی با موفقیت ویرایش شد.');
-
-        return redirect('administrator/attributes_group');
+        //
     }
 
     /**
@@ -102,12 +111,6 @@ class attributeGroupController extends Controller
      */
     public function destroy($id)
     {
-        $attributeGroup=AttributeGroup::findOrFail($id);
-        $attributeGroup->delete();
-
-        Session::flash('attribute_delete','ویژگی با موفقیت حذف شد.');
-
-        return redirect('administrator/attributes_group');
-
+        //
     }
 }

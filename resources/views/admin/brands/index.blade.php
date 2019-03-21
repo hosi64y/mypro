@@ -29,7 +29,7 @@
         </div>
         <!-- /.box-header -->
         <div class="box-body no-padding">
-                <a class="btn btn-app mgr-7" href="{{route('attributes.create')}}">
+                <a class="btn btn-app mgr-7" href="{{route('brands.create')}}">
                     <i class="fa fa-plus"></i> ایجاد
                 </a>
             <table class="table table-condensed">
@@ -37,17 +37,15 @@
                 <tr>
                     <th class="text-center"  style="width: 10px">شناسه</th>
                     <th class="text-center" >عنوان</th>
-                    <th class="text-center" >نوع</th>
                     <th class="text-center" >عملیات</th>
                 </tr>
-                @foreach($attributesGroup as  $attributes)
+                @foreach($brands as  $brand)
                     <tr>
-                        <td class="text-center" >{{$attributes->id}}</td>
-                        <td class="text-center" >{{$attributes->name}}</td>
-                        <td class="text-center" >{{$attributes->type}}</td>
+                        <td class="text-center" >{{$brand->id}}</td>
+                        <td class="text-center" >{{$brand->title}}</td>
                         <td class="text-center" >
-                            <a href="{{route('attributes.edit',$attributes->id)}}" class="btn btn-primary">ویرایش</a>
-                            <form class="display-inline-block" method="post" action="{{route('attributes.destroy',$attributes->id)}}">
+                            <a href="{{route('brands.edit',$brand->id)}}" class="btn btn-primary">ویرایش</a>
+                            <form class="display-inline-block" method="post" action="{{route('brands.destroy',$brand->id)}}">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <button type="submit" class="btn btn-danger">حذف</button>

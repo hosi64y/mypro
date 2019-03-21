@@ -7,6 +7,8 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'App\\AttributeGroup' => $baseDir . '/app/AttributeGroup.php',
+    'App\\AttributeValue' => $baseDir . '/app/AttributeValue.php',
+    'App\\Brand' => $baseDir . '/app/Brand.php',
     'App\\Category' => $baseDir . '/app/Category.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
@@ -15,9 +17,11 @@ return array(
     'App\\Http\\Controllers\\Auth\\RegisterController' => $baseDir . '/app/Http/Controllers/Auth/RegisterController.php',
     'App\\Http\\Controllers\\Auth\\ResetPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ResetPasswordController.php',
     'App\\Http\\Controllers\\Backend\\attributeGroupController' => $baseDir . '/app/Http/Controllers/Backend/attributeGroupController.php',
+    'App\\Http\\Controllers\\Backend\\attributeValueController' => $baseDir . '/app/Http/Controllers/Backend/attributeValueController.php',
     'App\\Http\\Controllers\\Backend\\categoryController' => $baseDir . '/app/Http/Controllers/Backend/categoryController.php',
     'App\\Http\\Controllers\\Backend\\mainController' => $baseDir . '/app/Http/Controllers/Backend/mainController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
+    'App\\Http\\Controllers\\brandController' => $baseDir . '/app/Http/Controllers/brandController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\EncryptCookies' => $baseDir . '/app/Http/Middleware/EncryptCookies.php',
     'App\\Http\\Middleware\\RedirectIfAuthenticated' => $baseDir . '/app/Http/Middleware/RedirectIfAuthenticated.php',

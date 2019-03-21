@@ -336,6 +336,8 @@ class ComposerStaticInitde2b4c8efccf973317303ac1baee9c34
 
     public static $classMap = array (
         'App\\AttributeGroup' => __DIR__ . '/../..' . '/app/AttributeGroup.php',
+        'App\\AttributeValue' => __DIR__ . '/../..' . '/app/AttributeValue.php',
+        'App\\Brand' => __DIR__ . '/../..' . '/app/Brand.php',
         'App\\Category' => __DIR__ . '/../..' . '/app/Category.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
@@ -344,9 +346,11 @@ class ComposerStaticInitde2b4c8efccf973317303ac1baee9c34
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\Backend\\attributeGroupController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/attributeGroupController.php',
+        'App\\Http\\Controllers\\Backend\\attributeValueController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/attributeValueController.php',
         'App\\Http\\Controllers\\Backend\\categoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/categoryController.php',
         'App\\Http\\Controllers\\Backend\\mainController' => __DIR__ . '/../..' . '/app/Http/Controllers/Backend/mainController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\brandController' => __DIR__ . '/../..' . '/app/Http/Controllers/brandController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
         'App\\Http\\Middleware\\RedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfAuthenticated.php',

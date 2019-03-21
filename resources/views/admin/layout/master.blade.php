@@ -33,6 +33,8 @@
     <link rel="stylesheet" href="/admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
     <link rel="stylesheet" href="/admin/dist/css/MyAdminLTE.css">
+
+    @yield('styles')
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -259,7 +261,7 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                            <span class="hidden-xs">آکادمی آنلاین روکسو</span>
+                            <span class="hidden-xs">فروشگاه</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -381,7 +383,20 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="{{route('attributes.index')}}"><i class="fa fa-database"></i>لیست ویژگی ها</a></li>
+                        <li><a href="{{route('attributes_group.index')}}"><i class="fa fa-database"></i>لیست ویژگی ها</a></li>
+                    </ul>
+                    <ul class="treeview-menu">
+                        <li><a href="{{route('attributes_value.index')}}"><i class="fa fa-database"></i>لیست مقادیر ویژگی ها</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-pie-chart"></i>
+                        <span>برندها</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="{{route('brands.index')}}"><i class="fa fa-database"></i>لیست برندها</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
@@ -713,5 +728,8 @@
 <script src="/admin/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/admin/dist/js/demo.js"></script>
+
+@yield('scripts')
+
 </body>
 </html>

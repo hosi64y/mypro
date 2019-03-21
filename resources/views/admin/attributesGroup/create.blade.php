@@ -6,7 +6,7 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">ایجاد ویژگی</h3>
                 </div>
-                <form action="{{route('attributes.store')}}" method="post" role="form" class="pd-form">
+                <form action="{{route('attributes_group.store')}}" method="post" role="form" class="pd-form">
                     {{ csrf_field() }}
 
                     <div class="form-group">
