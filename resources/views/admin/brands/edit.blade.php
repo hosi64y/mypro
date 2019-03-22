@@ -6,7 +6,7 @@
     <div class="content">
         <div class="box box-warning">
             <div class="box-header with-border">
-                <h3 class="box-title">ویرایش ویژگی</h3>
+                <h3 class="box-title">ویرایش برند</h3>
             </div>
             <form action="{{route('brands.update',$brands->id)}}" method="post" role="form" class="pd-form">
                 {{ csrf_field() }}
@@ -15,10 +15,11 @@
                     <label>تصویر</label>
 
                     <img src="{{$brands->photo->path}}" alt="">
+{{--                    <img src="{{asset("storage/photos/".$brands->photo->getPathAttribute)}}" alt="">--}}
                 </div>
                 <div class="form-group">
                     <label>عنوان</label>
-                    <input type="text" name="title" value="{{$brands->title}}" class="form-control" placeholder="عنوان ویژگی را ورد کنید...">
+                    <input type="text" name="title" value="{{$brands->title}}" class="form-control" placeholder="عنوان برند را ورد کنید...">
                     @if($errors->has('title'))<div class="alert alert-danger">{{$errors->first('title')}}</div> @endif
                 </div>
                 <div class="form-group">
@@ -31,7 +32,7 @@
                 <div class="form-group">
 
                     <label>تصویر</label>
-                    <input type="hidden" name="photo_id" id="photo-brand" value="{{old('photo_id')}}">
+                    <input type="hidden" name="photo_id" id="photo-brand" value="{{$brands->photo->id}}">
                     <div class="dropzone" id="drop">
 
                     </div>
@@ -44,7 +45,7 @@
 
                 </div>
 
-                <input type="submit" class="btn btn-block btn-success width-btn-small" value="ذخیره">
+                <input type="submit" class="btn btn-block btn-success width-btn-small" value="ویرایش">
             </form>
         </div>
     </div>

@@ -83,7 +83,6 @@ class brandController extends Controller
     public function edit($id)
     {
         $brands=Brand::findOrFail($id);
-
         return view('admin.brands.edit',['brands'=>$brands]);
     }
 
@@ -96,7 +95,27 @@ class brandController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validate=Validator::make($request->all(),[
+            'title'=>'required|unique:brands,title,'.$id,
+            'description'=>'required',
+            'photo_id'=>'required'
+        ],[
+            'title.unique'=>'نام برند نباید تکراری باشد.',
+            'title.required'=>'ورود نام برند الزامی می باشد.',
+            'description.required'=>'ورود توضیحات الزامی می باشد.',
+            'photo_id.required'=>'ورود تصویر برند الزامی می باشد.',
+        ]);
+        if ($validate->fails()){
+            return redirect('administrator/brands/'.$id.'/edit')->withErrors($validate)->withInput();
+        }else{
+            $brand=Brand::findOrFail($id);
+            $brand->title=$request->title;
+            $brand->description=$request->description;
+            $brand->photo_id=$request->photo_id;
+            $brand->save();
+            Session::flash('success_brand','برند '.$request->title.' با موفقیت ثبت گردید.');
+            return redirect(route('brands.index'));
+        }
     }
 
     /**
@@ -107,6 +126,11 @@ class brandController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $brand=Brand::findOrFail($id);
+        $brand->delete();
+        $brand->photo->delete();
+
+        Session::flash('success_brand','برند '.$brand->title.' با موفقیت حذف گردید.');
+        return redirect(route('brands.index'));
     }
 }

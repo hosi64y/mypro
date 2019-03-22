@@ -1,10 +1,10 @@
 @extends('admin.layout.master')
 
 @section('content')
-    @if(Session::has('attribute_succcess'))
+    @if(Session::has('success_brand'))
         <div class="alert alert-success rtl">
             <div>
-                {{session('attribute_succcess')}}
+                {{session('success_brand')}}
             </div>
         </div>
     @endif
@@ -25,7 +25,7 @@
     <div class="content">
     <div class="box">
         <div class="box-header">
-            <h3 class="box-title">ویژگی ها</h3>
+            <h3 class="box-title">برند ها</h3>
         </div>
         <!-- /.box-header -->
         <div class="box-body no-padding">
