@@ -15,4 +15,14 @@ class Category extends Model
     {
         return $this->children()->with('childrenRecorsive');
     }
+
+    public function products(){
+        return $this->hasMany(Product::class);
+    }
+
+    public function attributeGroups()
+    {
+        return $this->belongsToMany(AttributeGroup::class,'attributegroup_category','category_id','attributeGroup_id');
+    }
+
 }

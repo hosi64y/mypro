@@ -20,4 +20,8 @@ Route::prefix('administrator')->group(function (){
    Route::resource('/brands','Backend\brandController');
    Route::resource('/photos','Backend\photoController');
    Route::post('/upload','Backend\photoController@upload')->name('photo_upload');
+   Route::resource('/products','Backend\productController');
+   Route::get('/categories/{id}/setting','Backend\categoryController@indexSetting')->name('categories.index_setting');
+   Route::post('/categories/{id}/setting','Backend\categoryController@saveSetting')->name('categories.save_setting');
+
 });

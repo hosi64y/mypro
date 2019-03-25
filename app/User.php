@@ -29,7 +29,12 @@ class User extends Authenticatable
 
     public function photos()
     {
-        $this->hasMany(Photo::class);
+        return $this->hasMany(Photo::class);
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
     }
 
 }

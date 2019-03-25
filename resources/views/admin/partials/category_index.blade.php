@@ -9,6 +9,8 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <button type="submit" class="btn btn-danger">حذف</button>
             </form>
+            <a href="{{route('categories.index_setting',$cat->id)}}" class="btn btn-info">ویرایش</a>
+
         </td>
     </tr>
     @if(count($sub_cat->childrenRecorsive)>0)
