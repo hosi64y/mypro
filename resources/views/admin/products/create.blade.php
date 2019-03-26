@@ -4,6 +4,9 @@
     <link rel="stylesheet" href="/admin/dist/css/dropzone.min.css">
 @endsection
 @section('content')
+    <div id="app-1">
+        <example-component></example-component>
+    </div>
         <div class="content">
             @if(Session::has('success_brand'))
                 <div class="alert alert-success">

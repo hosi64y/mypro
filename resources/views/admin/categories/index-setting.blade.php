@@ -13,7 +13,7 @@
                     <label>ویژگی ها</label>
                     <select class="form-control select2 select2-hidden-accessible" multiple name="attributeGroups[]" style="width: 100%;" tabindex="-1" aria-hidden="true">
                         @foreach($atrributeGroup as $atrribute)
-                            <option value="{{$atrribute->id}}">{{$atrribute->name}}</option>
+                            <option value="{{$atrribute->id}}" @if(in_array($atrribute->id,$category->attributeGroups->pluck('id')->toArray())) selected @endif>{{$atrribute->name}}</option>
                         @endforeach
                     </select>
                 </div>
