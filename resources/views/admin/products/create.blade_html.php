@@ -5,6 +5,7 @@
 @endsection
 @section('content')
     <div id="app">
+        <attribute-component></attribute-component>
 
         <div class="content">
             @if(Session::has('success_brand'))
@@ -54,9 +55,25 @@
                             <div class="alert alert-danger">{{$errors->first('description')}}</div>
                         @endif
                     </div>
-
-                    <attribute-component :brands="{{$brands}}"></attribute-component>
-
+                    <div class="form-group">
+                        <label>دسته بندی</label>
+                        <select class="form-control select2 select2-hidden-accessible" name="category_parent" style="width: 100%;" tabindex="-1" aria-hidden="true" multiple>
+                            @foreach($categories as $cat)
+                                <option value="{{$cat->id}}">{{$cat->name}}</option>
+                                @if(count($cat->childrenRecorsive)>0)
+                                    @include('admin.partials.category',['categories'=>$cat->childrenRecorsive,'level'=>1])
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="brand">برند</label>
+                        <select class="form-control select2 select2-hidden-accessible" name="brand" id="brand">
+                            @foreach($brands as $brand)
+                                <option value="{{$brand->id}}">{{$brand->title}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="form-group">
 
                         <label>تصویر</label>
@@ -96,7 +113,6 @@
 @section('scripts')
     <script src="/admin/dist/js/dropzone.min.js"></script>
     <script>
-        Dropzone.autoDiscover=false;
         var myDropzone = new Dropzone("div#drop", {
             url: "{{route('photo_upload')}}",
             addRemoveLinks:true,

@@ -31,8 +31,7 @@ class categoryController extends Controller
     public function create()
     {
         $categories=Category::with('childrenRecorsive')->where('parent_id',null)->get();
-//        $categories=Category::with('children')->where('parent_id',null)->get();
-//        return $categories;
+
         return view('admin.categories.create',compact(['categories']));
     }
 
@@ -129,5 +128,14 @@ class categoryController extends Controller
         $category->save();
 
         return redirect('/administrator/categories/');
+    }
+
+    public function apiIndex()
+    {
+      $categories=Category::with('childrenRecorsive')->where('parent_id',null)->get();
+
+      $response=['categories'=>$categories];
+
+      return response()->json($response);
     }
 }

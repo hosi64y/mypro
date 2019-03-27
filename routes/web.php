@@ -11,7 +11,9 @@
 |
 */
 
-
+Route::prefix('api')->group(function (){
+    Route::get('admin/categories','Backend\categoryController@apiIndex');
+});
 Route::prefix('administrator')->group(function (){
    Route::get('/','Backend\mainController@mainPage');
    Route::resource('/categories','Backend\categoryController');

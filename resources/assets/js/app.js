@@ -7,6 +7,7 @@
 
 // require('./bootstrap');
 
+window.axios = require('axios');
 window.Vue = require('vue');
 
 /**
@@ -15,8 +16,8 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('attribute-component', require('./components/attributeComponent.vue'));
 
- app = new Vue({
-    el: '#app-1',
+window.app=new Vue({
+    el: '#app',
 });
