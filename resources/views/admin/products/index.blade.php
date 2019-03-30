@@ -1,10 +1,10 @@
 @extends('admin.layout.master')
 
 @section('content')
-    @if(Session::has('success_brand'))
+    @if(Session::has('success'))
         <div class="alert alert-success rtl">
             <div>
-                {{session('success_brand')}}
+                {{session('success')}}
             </div>
         </div>
     @endif

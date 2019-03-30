@@ -51,6 +51,7 @@ class attributeGroupController extends Controller
         return redirect('administrator/attributes_group');
     }
 
+
     /**
      * Display the specified resource.
      *

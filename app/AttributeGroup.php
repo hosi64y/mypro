@@ -8,13 +8,13 @@ class AttributeGroup extends Model
 {
     protected $table='attributesgroup';
 
-//    public function AttributeValue()
-//    {
-//        return $this->hasMany(AttributeValue::class);
-//    }
-    public function category()
+    public function AttributesValue()
     {
-        return $this->belongsToMany(Category::class,'attributegroup_category','atttibuteGroup_id','category_id');
+        return $this->hasMany(AttributeValue::class,'attributeGroup_id');
+    }
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class,'attributegroup_category','attributeGroup_id','category_id');
 
     }
 }

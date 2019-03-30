@@ -66,6 +66,18 @@
             sending:function (file,xhr,formData) {
                 formData.append("_token","{{csrf_token()}}");
             },
+            init: function () {
+                this.on("removedfile", function (file) {
+                    $.post({
+                        url: "{{route('photo_delete')}}",
+                        data: {id: $('[name="photo_id"]').val(), _token: "{{csrf_token()}}"},
+                        dataType: 'json',
+                        success: function (data) {
+                            document.getElementById('photo-brand').value="";
+                        }
+                    });
+                });
+            },
             success:function (file,response) {
               document.getElementById('photo-brand').value=response.photo_id;
 

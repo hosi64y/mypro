@@ -33,6 +33,25 @@ class productController extends Controller
         return view('admin.products.create',compact(['categories','brands']));
     }
 
+    public function generateSku()
+    {
+        $rand=mt_rand(1000,99999);
+        if ($this->checkSku($rand))
+            $this->generateSku();
+        return $rand;
+    }
+
+    public function checkSku($sku)
+    {
+        return Product::where('sku',$sku)->exists();
+    }
+
+    public function makeSlug($string)
+    {
+        $string=strtolower($string);
+        $string=str_replace(['?','؟'],'',$string);
+        return preg_replace('/\s+/u','-',trim($string));
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -41,7 +60,28 @@ class productController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $model=new Product();
+        $model->title=$request->title;
+        $model->sku=$this->generateSku();
+        $model->slug=$this->makeSlug($request->slug);
+        $model->status=$request->status;
+        $model->price=$request->price;
+        $model->discount=$request->discount_price;
+        $model->description=$request->description;
+        $model->brand_id=$request->brand;
+        $model->user_id=1;
+        $model->save();
+
+        $attribuute=explode(',',$request->input('attributes')[0]);
+        $photos=explode(',',$request->input('photo_id')[0]);
+
+        $model->categories()->sync($request->categories);
+        $model->AttributeValue()->sync($attribuute);
+        $model->photos()->sync($photos);
+
+        session()->flash('success','محصول با موفقیت ثبت گردید.');
+        return redirect('/administrator/products');
+
     }
 
     /**

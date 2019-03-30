@@ -121,6 +121,18 @@ class categoryController extends Controller
         return view('admin.categories.index-setting',compact(['atrributeGroup','category']));
     }
 
+    public function apiIndexAttribute(Request $request)
+    {
+        $categories=$request->all();
+        $attributesGroup=AttributeGroup::with('AttributesValue','categories')
+            ->whereHas('categories',function ($q) use($categories){
+                $q->whereIn('categories.id',$categories);
+        })->get();
+        $response=[
+            'attributes'=>$attributesGroup
+        ];
+        return response()->json($response);
+    }
     public function saveSetting(Request $request,$id)
     {
         $category=Category::findOrFail($id);

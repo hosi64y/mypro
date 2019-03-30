@@ -17,4 +17,9 @@ class Photo extends Model
     {
         return $this->uploads.$photo;
     }
+
+    public function product()
+    {
+        return$this->belongsToMany(Product::class);
+    }
 }

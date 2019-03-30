@@ -58,6 +58,14 @@ class photoController extends Controller
 
     }
 
+    public function delete(Request $request)
+    {
+        $photo=Photo::findOrFail($request->id);
+        $photo->delete();
+        return response()->json([
+            'message' => 'File successfully delete'
+        ], 200);
+    }
     /**
      * Store a newly created resource in storage.
      *

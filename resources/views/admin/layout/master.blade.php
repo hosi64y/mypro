@@ -9,9 +9,9 @@
     <!-- Bootstrap 3.3.6 -->
     <link rel="stylesheet" href="/admin/bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    {{--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">--}}
+    {{--<!-- Ionicons -->--}}
+    {{--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">--}}
     <!-- Theme style -->
     <link rel="stylesheet" href="/admin/dist/css/AdminLTE.min.css">
 
@@ -605,7 +605,7 @@
 <!-- Bootstrap 3.3.6 -->
 <script src="/admin/bootstrap/js/bootstrap.min.js"></script>
 <!-- Morris.js charts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>--}}
 <script src="/admin/plugins/morris/morris.min.js"></script>
 <!-- Sparkline -->
 <script src="/admin/plugins/sparkline/jquery.sparkline.min.js"></script>
@@ -615,7 +615,7 @@
 <!-- jQuery Knob Chart -->
 <script src="/admin/plugins/knob/jquery.knob.js"></script>
 <!-- daterangepicker -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>--}}
 <script src="/admin/plugins/daterangepicker/daterangepicker.js"></script>
 <!-- datepicker -->
 <script src="/admin/plugins/datepicker/bootstrap-datepicker.js"></script>

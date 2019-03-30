@@ -2,6 +2,8 @@
 
 @section('styles')
     <link rel="stylesheet" href="/admin/dist/css/dropzone.min.css">
+    <script src="/admin/plugins/ckeditor/ckeditor.js"></script>
+
 @endsection
 @section('content')
     <div id="app">
@@ -44,12 +46,12 @@
                     </div>
                     <div class="form-group">
                         <label>قیمت ویژه</label>
-                        <input type="text" name="discount-price" class="form-control" placeholder="قیمت محصول را وارد کنید..." value="{{ old('title') }}" >
+                        <input type="text" name="discount_price" class="form-control" placeholder="قیمت محصول را وارد کنید..." value="{{ old('title') }}" >
                         @if($errors->has('title'))<div class="alert alert-danger">{{$errors->first('title')}}</div> @endif
                     </div>
                     <div class="form-group">
                         <label>توضیحات</label>
-                        <textarea name="description" class="form-control" placeholder="توضیحات برند را ورد کنید..." >{{ old('description') }}</textarea>
+                        <textarea id="description" name="description" class="form-control" placeholder="توضیحات برند را ورد کنید..." >{{ old('description') }}</textarea>
                         @if($errors->has('description'))
                             <div class="alert alert-danger">{{$errors->first('description')}}</div>
                         @endif
@@ -59,8 +61,8 @@
 
                     <div class="form-group">
 
-                        <label>تصویر</label>
-                        <input type="hidden" name="photo_id" id="photo-brand" value="{{old('photo_id')}}">
+                        <label>گالری تصاویر</label>
+                        <input type="hidden" name="photo_id[]" id="product-photo" value="{{old('photo_id')}}">
                         <div class="dropzone" id="drop">
 
                         </div>
@@ -85,7 +87,7 @@
                         <input type="text" name="meta_keywords" class="form-control" placeholder="کلمات کلیدی سئو را ورد کنید...">
                     </div>
 
-                    <input type="submit" class="btn btn-block btn-success width-btn-small" value="ذخیره">
+                    <input onclick="photoGallery()" type="submit" class="btn btn-block btn-success width-btn-small" value="ذخیره">
                 </form>
             </div>
         </div>
@@ -97,17 +99,25 @@
     <script src="/admin/dist/js/dropzone.min.js"></script>
     <script>
         Dropzone.autoDiscover=false;
+        var photoProduct=[];
         var myDropzone = new Dropzone("div#drop", {
             url: "{{route('photo_upload')}}",
             addRemoveLinks:true,
-            maxFiles:1,
+//            maxFiles:1,
             sending:function (file,xhr,formData) {
                 formData.append("_token","{{csrf_token()}}");
             },
             success:function (file,response) {
-              document.getElementById('photo-brand').value=response.photo_id;
-
+                photoProduct.push(response.photo_id);
             }
         });
+
+        CKEDITOR.replace( 'description' ,function () {
+            language:'fa';
+        });
+        function photoGallery() {
+            document.getElementById('product-photo').value=photoProduct;
+
+        }
     </script>
 @endsection

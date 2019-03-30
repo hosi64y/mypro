@@ -22,10 +22,8 @@ class CreateProductTable extends Migration
             $table->float('price');
             $table->float('discount');
             $table->text('description');
-            $table->unsignedInteger('category_id');
             $table->unsignedInteger('brand_id');
             $table->unsignedInteger('user_id');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
