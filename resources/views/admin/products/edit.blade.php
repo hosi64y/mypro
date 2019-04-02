@@ -1,72 +1,123 @@
 @extends('admin.layout.master')
+
 @section('styles')
     <link rel="stylesheet" href="/admin/dist/css/dropzone.min.css">
+    <script src="/admin/plugins/ckeditor/ckeditor.js"></script>
+
 @endsection
 @section('content')
-    <div class="content">
-        <div class="box box-warning">
-            <div class="box-header with-border">
-                <h3 class="box-title">ویرایش برند</h3>
-            </div>
-            <form action="{{route('brands.update',$brands->id)}}" method="post" role="form" class="pd-form">
-                {{ csrf_field() }}
-                <input type="hidden" name="_method" value="PATCH">
-                <div class="form-group">
-                    <label>تصویر</label>
+    <div id="app">
 
-                    <img src="{{$brands->photo->path}}" alt="">
-{{--                    <img src="{{asset("storage/photos/".$brands->photo->getPathAttribute)}}" alt="">--}}
+        <div class="content">
+            @if(Session::has('success_brand'))
+                <div class="alert alert-success">
+                    <div>
+                        {{session('success_brand')}}
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>عنوان</label>
-                    <input type="text" name="title" value="{{$brands->title}}" class="form-control" placeholder="عنوان برند را ورد کنید...">
-                    @if($errors->has('title'))<div class="alert alert-danger">{{$errors->first('title')}}</div> @endif
+            @endif
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">ایجاد برند</h3>
                 </div>
-                <div class="form-group">
-                    <label>توضیحات</label>
-                    <textarea name="description" class="form-control" placeholder="توضیحات برند را ورد کنید..." >{{$brands->description}}</textarea>
-                    @if($errors->has('description'))
-                        <div class="alert alert-danger">{{$errors->first('description')}}</div>
-                    @endif
-                </div>
-                <div class="form-group">
+                <form action="{{route('products.store')}}" method="post" role="form" class="pd-form">
+                    {{ csrf_field() }}
 
-                    <label>تصویر</label>
-                    <input type="hidden" name="photo_id" id="photo-brand" value="{{$brands->photo->id}}">
-                    <div class="dropzone" id="drop">
+                    <div class="form-group">
+                        <label>عنوان</label>
+                        <input type="text" name="title" class="form-control" placeholder="عنوان محصول را وارد کنید..." value="{{ old('title') }}" >
+                        @if($errors->has('title'))<div class="alert alert-danger">{{$errors->first('title')}}</div> @endif
+                    </div>
+                    <div class="form-group">
+                        <label>نام مستعار محصول</label>
+                        <input type="text" name="slug" class="form-control" placeholder="نام مستعار محصول را وارد کنید..." value="{{ old('title') }}" >
+                        @if($errors->has('title'))<div class="alert alert-danger">{{$errors->first('title')}}</div> @endif
+                    </div>
+                    <div class="form-group">
+                        <label>وضعیت نشر</label><br>
+                        <label for="status1">منتشر شده</label><input id="status1" type="radio" name="status" value="1">
+                        <label for="status0">منتشر نشده<input id="status0" type="radio" name="status" value="0">
+                            @if($errors->has('title'))<div class="alert alert-danger">{{$errors->first('title')}}</div> @endif
+                    </div>
+                    <div class="form-group">
+                        <label>قیمت</label>
+                        <input type="text" name="price" class="form-control" placeholder="قیمت محصول را وارد کنید..." value="{{ old('title') }}" >
+                        @if($errors->has('title'))<div class="alert alert-danger">{{$errors->first('title')}}</div> @endif
+                    </div>
+                    <div class="form-group">
+                        <label>قیمت ویژه</label>
+                        <input type="text" name="discount_price" class="form-control" placeholder="قیمت محصول را وارد کنید..." value="{{ old('title') }}" >
+                        @if($errors->has('title'))<div class="alert alert-danger">{{$errors->first('title')}}</div> @endif
+                    </div>
+                    <div class="form-group">
+                        <label>توضیحات</label>
+                        <textarea id="description" name="description" class="form-control" placeholder="توضیحات برند را ورد کنید..." >{{ old('description') }}</textarea>
+                        @if($errors->has('description'))
+                            <div class="alert alert-danger">{{$errors->first('description')}}</div>
+                        @endif
+                    </div>
+
+                    <attribute-component :brands="{{$brands}}"></attribute-component>
+
+                    <div class="form-group">
+
+                        <label>گالری تصاویر</label>
+                        <input type="hidden" name="photo_id[]" id="product-photo" value="{{old('photo_id')}}">
+                        <div class="dropzone" id="drop">
+
+                        </div>
+                        @if($errors->has('photo_id'))
+                            <div class="alert alert-danger">{{$errors->first('photo_id')}}</div>
+                        @endif
+                        @if(old('photo_id'))
+                            <div class="alert alert-warning rtl">تصویر ارسالی قبل شما وارد گردیده است. در صورتی که میخواهید تصویر دیگری ارسال کنید آن را بارگذاری کنید.</div>
+                        @endif
 
                     </div>
-                    @if($errors->has('photo_id'))
-                        <div class="alert alert-danger">{{$errors->first('photo_id')}}</div>
-                    @endif
-                    @if(old('photo_id'))
-                        <div class="alert alert-warning rtl">تصویر ارسالی قبل شما وارد گردیده است. در صورتی که میخواهید تصویر دیگری ارسال کنید آن را بارگذاری کنید.</div>
-                    @endif
+                    <div class="form-group">
+                        <label>عنوان سئو</label>
+                        <input type="text" name="meta_title" class="form-control" placeholder="عنوان سئو را ورد کنید...">
+                    </div>
+                    <div class="form-group">
+                        <label>توضیحات سئو</label>
+                        <textarea name="meta_desc" class="form-control" placeholder="توضیحات سئو را ورد کنید..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>کلمات کلیدی سئو</label>
+                        <input type="text" name="meta_keywords" class="form-control" placeholder="کلمات کلیدی سئو را ورد کنید...">
+                    </div>
 
-                </div>
-
-                <input type="submit" class="btn btn-block btn-success width-btn-small" value="ویرایش">
-            </form>
+                    <input onclick="photoGallery()" type="submit" class="btn btn-block btn-success width-btn-small" value="ذخیره">
+                </form>
+            </div>
         </div>
+
     </div>
-
-
 @endsection
 
 @section('scripts')
     <script src="/admin/dist/js/dropzone.min.js"></script>
     <script>
+        Dropzone.autoDiscover=false;
+        var photoProduct=[];
         var myDropzone = new Dropzone("div#drop", {
             url: "{{route('photo_upload')}}",
             addRemoveLinks:true,
-            maxFiles:1,
+//            maxFiles:1,
             sending:function (file,xhr,formData) {
                 formData.append("_token","{{csrf_token()}}");
             },
             success:function (file,response) {
-                document.getElementById('photo-brand').value=response.photo_id;
-
+                photoProduct.push(response.photo_id);
             }
         });
+
+        CKEDITOR.replace( 'description' ,function () {
+            language:'fa';
+        });
+        function photoGallery() {
+            document.getElementById('product-photo').value=photoProduct;
+
+        }
     </script>
 @endsection
