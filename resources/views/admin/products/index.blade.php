@@ -43,6 +43,7 @@
                 @foreach($products as  $product)
                     <tr>
                         <td class="text-center" >{{$product->id}}</td>
+                        <td class="text-center" >{{$product->sku}}</td>
                         <td class="text-center" >{{$product->title}}</td>
                         <td class="text-center" >
                             <a href="{{route('products.edit',$product->id)}}" class="btn btn-primary">ویرایش</a>

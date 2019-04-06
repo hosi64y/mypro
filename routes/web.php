@@ -31,3 +31,11 @@ Route::prefix('administrator')->group(function (){
    Route::post('/categories/{id}/setting','Backend\categoryController@saveSetting')->name('categories.save_setting');
 
 });
+
+
+
+
+Auth::routes();
+
+Route::get('/', 'Frontend\HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');

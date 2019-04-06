@@ -60,6 +60,7 @@ class productController extends Controller
      */
     public function store(Request $request)
     {
+//        return $request->all();
         $model=new Product();
         $model->title=$request->title;
         $model->sku=$this->generateSku();
@@ -70,6 +71,10 @@ class productController extends Controller
         $model->description=$request->description;
         $model->brand_id=$request->brand;
         $model->user_id=1;
+        $model->meta_title=$request->meta_title;
+        $model->meta_desc=$request->meta_desc;
+        $model->meta_keywords=$request->meta_keywords;
+
         $model->save();
 
         $attribuute=explode(',',$request->input('attributes')[0]);
@@ -104,7 +109,10 @@ class productController extends Controller
     public function edit($id)
     {
 
-        return view('admin.products.edit',compact['']);
+
+        $brands=Brand::all();
+        $product=Product::with('categories','brand','AttributeValue','photos')->whereId($id)->first();
+        return view('admin.products.edit',compact(['brands','product']));
     }
 
     /**
@@ -116,7 +124,31 @@ class productController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $model=Product::findOrFail($id);
+        $model->title=$request->title;
+        $model->sku=$this->generateSku();
+        $model->slug=$this->makeSlug($request->slug);
+        $model->status=$request->status;
+        $model->price=$request->price;
+        $model->discount=$request->discount_price;
+        $model->description=$request->description;
+        $model->brand_id=$request->brand;
+        $model->user_id=1;
+        $model->meta_title=$request->meta_title;
+        $model->meta_desc=$request->meta_desc;
+        $model->meta_keywords=$request->meta_keywords;
+
+        $model->save();
+
+        $attribuute=explode(',',$request->input('attributes')[0]);
+        $photos=explode(',',$request->input('photo_id')[0]);
+
+        $model->categories()->sync($request->categories);
+        $model->AttributeValue()->sync($attribuute);
+        $model->photos()->sync($photos);
+
+        session()->flash('success','محصول با موفقیت ویرایش گردید.');
+        return redirect('/administrator/products');
     }
 
     /**
@@ -127,6 +159,10 @@ class productController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product=Product::findOrFail($id);
+        $product->delete();
+
+        session()->flash('success','محصول با موفقیت حذف گردید.');
+        return redirect('/administrator/products');
     }
 }

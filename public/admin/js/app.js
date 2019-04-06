@@ -14189,7 +14189,7 @@ exports = module.exports = __webpack_require__(37)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -14683,6 +14683,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "attributeComponent",
@@ -14693,12 +14694,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             flag: false,
             attributes: [],
             attributeSelected: [],
-            computedSelected: []
+            computedSelected: [],
+            once: true
 
         };
     },
 
-    props: ['brands'],
+    props: ['brands', 'product'],
     mounted: function mounted() {
         var _this = this;
 
@@ -14707,6 +14709,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }).catch(function (err) {
             console.log(err);
         });
+        if (this.product) {
+            for (var i = 0; i < this.product.categories.length; i++) {
+                this.categories_selected.push(this.product.categories[i].id);
+            }
+            this.onChange();
+        }
     },
     methods: {
         onChange: function onChange(event) {
@@ -14733,21 +14741,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             }
         },
+        check: function check(id, group_id) {
+            if (this.once == true) {
+                for (var i = 0; i < this.product.attribute_value.length; i++) {
+                    if (group_id == this.product.attribute_value[i].attributeGroup_id && this.product.attribute_value[i].id == id) {
+                        if (!this.computedSelected.includes(id)) {
+                            this.computedSelected.push(id);
+                        }
+                        return true;
+                    }
+                }
+            } else {
+                for (var i = 0; i < this.product.attribute_value.length; i++) {
+                    if (group_id == this.product.attribute_value[i].attributeGroup_id) if (this.product.attribute_value[i].id == id) {
+                        return true;
+                    }
+                }
+            }
+        },
         change: function change(event, index) {
-            console.log(event.target.value, index);
             //                if(this.attributeSelected.indexOf(event.target.value)==-1)
             //                    this.attributeSelected.push(event.target.value)
-            for (var i = 0; i < this.attributeSelected.length; i++) {
-                var current = this.attributeSelected[i];
-                if (current.index == index) this.attributeSelected.splice(i, 1);
-            }
-            this.attributeSelected.push({
-                index: index,
-                value: event.target.value
-            });
-            this.computedSelected = [];
-            for (var i = 0; i < this.attributeSelected.length; i++) {
-                this.computedSelected.push(this.attributeSelected[i].value);
+            if (this.product) {
+                for (var i = 0; i < this.computedSelected.length; i++) {
+                    if (i == index) {
+                        this.computedSelected.splice(i, 1, parseInt(event.target.value));
+                    }
+                }
+                this.once = false;
+            } else {
+                this.attributeSelected.push({
+                    index: index,
+                    value: event.target.value
+                });
+                this.computedSelected = [];
+                for (var i = 0; i < this.attributeSelected.length; i++) {
+                    this.computedSelected.push(this.attributeSelected[i].value);
+                }
             }
         }
     }
@@ -14819,12 +14849,31 @@ var render = function() {
           staticClass: "form-control select2 select2-hidden-accessible",
           attrs: { name: "brand", id: "brand" }
         },
-        _vm._l(_vm.brands, function(brand) {
-          return _c("option", { domProps: { value: brand.id } }, [
-            _vm._v(_vm._s(brand.title))
-          ])
-        }),
-        0
+        [
+          _vm._l(_vm.brands, function(brand) {
+            return !_vm.product
+              ? _c("option", { domProps: { value: brand.id } }, [
+                  _vm._v(_vm._s(brand.title))
+                ])
+              : _vm._e()
+          }),
+          _vm._v(" "),
+          _vm._l(_vm.brands, function(brand) {
+            return _vm.product
+              ? _c(
+                  "option",
+                  {
+                    domProps: {
+                      value: brand.id,
+                      selected: _vm.product.brand.id === brand.id
+                    }
+                  },
+                  [_vm._v(_vm._s(brand.title))]
+                )
+              : _vm._e()
+          })
+        ],
+        2
       )
     ]),
     _vm._v(" "),
@@ -14846,12 +14895,34 @@ var render = function() {
                     }
                   }
                 },
-                _vm._l(attribute.attributes_value, function(attr) {
-                  return _c("option", { domProps: { value: attr.id } }, [
-                    _vm._v(_vm._s(attr.title))
-                  ])
-                }),
-                0
+                [
+                  _vm._l(attribute.attributes_value, function(attr) {
+                    return !_vm.product
+                      ? _c("option", { domProps: { value: attr.id } }, [
+                          _vm._v(_vm._s(attr.title))
+                        ])
+                      : _vm._e()
+                  }),
+                  _vm._v(" "),
+                  _vm._l(attribute.attributes_value, function(attr) {
+                    return _vm.product
+                      ? _c(
+                          "option",
+                          {
+                            domProps: {
+                              selected: _vm.check(
+                                attr.id,
+                                attr.attributeGroup_id
+                              ),
+                              value: attr.id
+                            }
+                          },
+                          [_vm._v(_vm._s(attr.title))]
+                        )
+                      : _vm._e()
+                  })
+                ],
+                2
               )
             ])
           }),

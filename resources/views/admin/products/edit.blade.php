@@ -18,46 +18,45 @@
             @endif
             <div class="box box-warning">
                 <div class="box-header with-border">
-                    <h3 class="box-title">ایجاد برند</h3>
+                    <h3 class="box-title">ویرایش محصول</h3>
                 </div>
-                <form action="{{route('products.store')}}" method="post" role="form" class="pd-form">
+                <form action="{{route('products.update',$product->id)}}" method="post" role="form" class="pd-form">
                     {{ csrf_field() }}
-
+                    <input type="hidden" name="_method" value="PATCH">
                     <div class="form-group">
                         <label>عنوان</label>
-                        <input type="text" name="title" class="form-control" placeholder="عنوان محصول را وارد کنید..." value="{{ old('title') }}" >
+                        <input type="text" name="title" class="form-control" placeholder="عنوان محصول را وارد کنید..." value="{{ $product->title }}" >
                         @if($errors->has('title'))<div class="alert alert-danger">{{$errors->first('title')}}</div> @endif
                     </div>
                     <div class="form-group">
                         <label>نام مستعار محصول</label>
-                        <input type="text" name="slug" class="form-control" placeholder="نام مستعار محصول را وارد کنید..." value="{{ old('title') }}" >
+                        <input type="text" name="slug" class="form-control" placeholder="نام مستعار محصول را وارد کنید..." value="{{ $product->slug }}" >
                         @if($errors->has('title'))<div class="alert alert-danger">{{$errors->first('title')}}</div> @endif
                     </div>
                     <div class="form-group">
                         <label>وضعیت نشر</label><br>
-                        <label for="status1">منتشر شده</label><input id="status1" type="radio" name="status" value="1">
-                        <label for="status0">منتشر نشده<input id="status0" type="radio" name="status" value="0">
-                            @if($errors->has('title'))<div class="alert alert-danger">{{$errors->first('title')}}</div> @endif
+                        <label for="status1">منتشر شده</label><input id="status1" type="radio" @if($product->status==1)checked @endif name="status" value="1">
+                        <label for="status0">منتشر نشده<input id="status0" type="radio" name="status" @if($product->status==0)checked @endif value="0">
                     </div>
                     <div class="form-group">
                         <label>قیمت</label>
-                        <input type="text" name="price" class="form-control" placeholder="قیمت محصول را وارد کنید..." value="{{ old('title') }}" >
+                        <input type="text" name="price" class="form-control" placeholder="قیمت محصول را وارد کنید..." value="{{ $product->price }}" >
                         @if($errors->has('title'))<div class="alert alert-danger">{{$errors->first('title')}}</div> @endif
                     </div>
                     <div class="form-group">
                         <label>قیمت ویژه</label>
-                        <input type="text" name="discount_price" class="form-control" placeholder="قیمت محصول را وارد کنید..." value="{{ old('title') }}" >
+                        <input type="text" name="discount_price" class="form-control" placeholder="قیمت محصول را وارد کنید..." value="{{ $product->discount }}" >
                         @if($errors->has('title'))<div class="alert alert-danger">{{$errors->first('title')}}</div> @endif
                     </div>
                     <div class="form-group">
                         <label>توضیحات</label>
-                        <textarea id="description" name="description" class="form-control" placeholder="توضیحات برند را ورد کنید..." >{{ old('description') }}</textarea>
+                        <textarea id="description" name="description" class="form-control" placeholder="توضیحات برند را ورد کنید..." >{{ $product->description }}</textarea>
                         @if($errors->has('description'))
                             <div class="alert alert-danger">{{$errors->first('description')}}</div>
                         @endif
                     </div>
 
-                    <attribute-component :brands="{{$brands}}"></attribute-component>
+                    <attribute-component :brands="{{$brands}}" :product="{{$product}}"></attribute-component>
 
                     <div class="form-group">
 
@@ -65,6 +64,14 @@
                         <input type="hidden" name="photo_id[]" id="product-photo" value="{{old('photo_id')}}">
                         <div class="dropzone" id="drop">
 
+                        </div>
+                        <div class="col-sm-12">
+                            @foreach($product->photos as $photo)
+                                    <div class="col-sm-3"  id="photoUploaded_{{$photo->id}}">
+                                        <img class="img-responsive" src="{{$photo->path}}" alt="">
+                                        <input type="button" onclick="removePic({{$photo->id}})" class="btn btn-danger" value="حذف">
+                                    </div>
+                            @endforeach
                         </div>
                         @if($errors->has('photo_id'))
                             <div class="alert alert-danger">{{$errors->first('photo_id')}}</div>
@@ -76,15 +83,15 @@
                     </div>
                     <div class="form-group">
                         <label>عنوان سئو</label>
-                        <input type="text" name="meta_title" class="form-control" placeholder="عنوان سئو را ورد کنید...">
+                        <input type="text" name="meta_title" class="form-control" placeholder="عنوان سئو را ورد کنید..." value="{{$product->meta_title}}">
                     </div>
                     <div class="form-group">
                         <label>توضیحات سئو</label>
-                        <textarea name="meta_desc" class="form-control" placeholder="توضیحات سئو را ورد کنید..."></textarea>
+                        <textarea name="meta_desc" class="form-control" placeholder="توضیحات سئو را ورد کنید...">{{$product->meta_desc}}</textarea>
                     </div>
                     <div class="form-group">
                         <label>کلمات کلیدی سئو</label>
-                        <input type="text" name="meta_keywords" class="form-control" placeholder="کلمات کلیدی سئو را ورد کنید...">
+                        <input type="text" name="meta_keywords" class="form-control" placeholder="کلمات کلیدی سئو را ورد کنید..." value="{{$product->meta_keywords}}">
                     </div>
 
                     <input onclick="photoGallery()" type="submit" class="btn btn-block btn-success width-btn-small" value="ذخیره">
@@ -100,6 +107,8 @@
     <script>
         Dropzone.autoDiscover=false;
         var photoProduct=[];
+        var photo=[].concat({{$product->photos->pluck('id')}})
+        console.log(photo);
         var myDropzone = new Dropzone("div#drop", {
             url: "{{route('photo_upload')}}",
             addRemoveLinks:true,
@@ -116,8 +125,13 @@
             language:'fa';
         });
         function photoGallery() {
-            document.getElementById('product-photo').value=photoProduct;
+            document.getElementById('product-photo').value=photoProduct.concat(photo);
 
+        }
+        removePic=function (id) {
+            var index=photo.indexOf(id);
+            photo.splice(index,1);
+            document.getElementById('photoUploaded_'+id).remove();
         }
     </script>
 @endsection
