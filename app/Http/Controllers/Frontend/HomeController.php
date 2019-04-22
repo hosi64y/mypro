@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,7 +15,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('frontend.main.index');
+        $productLatest=Product::orderBy('created_at','desc')->limit(6)->get();
+        return view('frontend.main.index',compact(['productLatest']));
     }
 
     /**
